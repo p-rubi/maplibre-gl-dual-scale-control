@@ -1,20 +1,9 @@
+```markdown
 # maplibre-dual-scale-control
 
-Dual-unit barscale control adapted for Maplibre GL — fork by **p-rubi**.
+This repository is a small fork of `mapbox-gl-dual-scale-control`, adapted to work with Maplibre GL (tested with Maplibre GL v5.0). Maplibre is an open-source, community-driven fork of Mapbox GL. This project preserves the original authorship and license while applying compatibility fixes and minor styling adjustments. It provides a dual-unit (metric and imperial) scale control for Maplibre GL, inspired by Leaflet JS’s dual-unit scale control.
 
-Usage
-
-- Install as a dependency (from GitHub or npm if published):
-
-```bash
-npm install p-rubi/maplibre-dual-scale-control
-# maplibre-dual-scale-control
-
-Dual-unit barscale control adapted for Maplibre GL — fork by **p-rubi**.
-
-This repository is a small fork that adapts `mapbox-gl-dual-scale-control` to work with Maplibre GL (tested with Maplibre GL v5.0). Maplibre is a community fork of Mapbox GL; this project preserves original authorship and license while applying compatibility fixes and small styling adjustments.
-
-Quick usage
+## Quick usage
 
 - Install from GitHub (no npm publish required):
 
@@ -32,10 +21,11 @@ const map = new maplibregl.Map({ /* ... */ });
 map.addControl(new DualScaleControl(), 'bottom-left');
 ```
 
-Browser demo
+## Browser demo
 
-Open `demo/index.html` (serve it from a static server) to try a minimal Maplibre demo that uses the control.
+View the [live demo](https://p-rubi.github.io/maplibre-gl-dual-scale-control/demo/) or open `demo/index.html` locally (serve it from a static server) to try a minimal Maplibre demo that uses the control.
 
-Attribution
+## Attribution
 
 This project is based on `mapbox-gl-dual-scale-control`. Original license and authorship are preserved. Changes and compatibility fixes by **p-rubi** are documented in the repo history.
+```

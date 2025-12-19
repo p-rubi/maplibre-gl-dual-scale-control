@@ -74,7 +74,7 @@ DualScaleControl.prototype._onMouseMove = function (e) {
 DualScaleControl.prototype._applyStyles = function () {
   this._container.style.cssText = 'border:none!important;padding:0!important;background-color:transparent!important;position:relative;height:24px;margin:10px!important;';
   this._positionContainer.style.display = 'none';
-  this._metricContainer.style.cssText = 'height:12px;font-size:10px;line-height:12px;text-align:center;background-color:rgba(255,255,255,0.8);border-width:0 2px 2px 2px;border-style:solid;border-color:#333;padding:0 5px;color:#333;position:absolute;top:0;left:0;white-space:nowrap;';
+  this._metricContainer.style.cssText = 'height:12px;font-size:10px;line-height:12px;text-align:center;background-color:rgba(255,255,255,0.8);border-width:0 2px 2px 2px;border-style:solid;border-color:#333;padding:0 5px;color:#333;position:absolute;top:-2px;left:0;white-space:nowrap;';
   this._imperialContainer.style.cssText = 'height:12px;font-size:10px;line-height:12px;text-align:center;background-color:rgba(255,255,255,0.8);border-width:2px 2px 0 2px;border-style:solid;border-color:#333;padding:0 5px;color:#333;position:absolute;top:10px;left:0;white-space:nowrap;';
 };
 
