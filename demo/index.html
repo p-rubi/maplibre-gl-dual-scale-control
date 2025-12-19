@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Maplibre Dual Scale Control Demo</title>
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.0.0/dist/maplibre-gl.css' />
+    <style>
+      body, html, #map { height: 100%; margin: 0; }
+      .maplibregl-ctrl { font-family: Arial, sans-serif; }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src='https://unpkg.com/maplibre-gl@5.0.0/dist/maplibre-gl.js'></script>
+    <script src="./dual-scale-control.js"></script>
+    <script>
+      // Demo initialization (using OpenStreetMap raster tiles)
+      const map = new maplibregl.Map({
+        container: 'map',
+        style: {
+          version: 8,
+          sources: {
+            osm: {
+              type: 'raster',
+              tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
+              tileSize: 256,
+              attribution: '© OpenStreetMap contributors'
+            }
+          },
+          layers: [ { id: 'osm', type: 'raster', source: 'osm' } ]
+        },
+        center: [0, 20],
+        zoom: 2
+      });
+
+      map.on('load', () => {
+        map.addControl(new window.DualScaleControl(), 'bottom-left');
+      });
+    </script>
+  </body>
+</html>

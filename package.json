@@ -1,0 +1,16 @@
+{
+  "name": "maplibre-dual-scale-control",
+  "version": "0.1.0",
+  "description": "Dual-unit barscale control adapted for Maplibre GL",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/p-rubi/maplibre-dual-scale-control"
+  },
+  "keywords": ["maplibre", "maplibre-gl", "scale", "control", "dual-scale"],
+  "author": "p-rubi",
+  "license": "MIT",
+  "peerDependencies": {
+    "maplibre-gl": "^2.0.0"
+  }
+}
