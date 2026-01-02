@@ -11,6 +11,6 @@
   "author": "p-rubi",
   "license": "MIT",
   "peerDependencies": {
-    "maplibre-gl": "^2.0.0"
+    "maplibre-gl": ">=4.0.0"
   }
 }
