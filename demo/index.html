@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>maplibre-gl-dual-scale-control demo</title>
+    <meta name="description" content="Metric and imperial scale bars at the same time for MapLibre GL JS." />
+    <link rel="stylesheet" href="../src/style.css" />
+    <style>
+      html, body, #map { height: 100%; margin: 0; }
+      body { font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+      .panel {
+        position: absolute; top: 10px; left: 10px; z-index: 2; width: 240px;
+        padding: 12px 14px; border-radius: 8px; color: #222;
+        background: rgba(255, 255, 255, 0.94); box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+      }
+      .panel h1 { margin: 0 0 2px; font-size: 14px; }
+      .panel p { margin: 0 0 10px; color: #555; }
+      .panel label { white-space: nowrap; display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; }
+      .panel select, .panel input[type="range"] { width: 112px; }
+      .panel pre {
+        margin: 10px 0 8px; padding: 8px; overflow-x: auto; border-radius: 4px;
+        background: #f2f4f6; font: 11px/1.4 ui-monospace, Menlo, Consolas, monospace;
+      }
+      .panel a { color: #0b66c3; }
+      @media (max-width: 480px) { .panel { width: auto; right: 10px; } }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <div class="panel">
+      <h1>maplibre-gl-dual-scale-control</h1>
+      <p>Metric and imperial scale, one axis.</p>
+      <label>Position
+        <select id="position">
+          <option>bottom-left</option><option>bottom-right</option>
+          <option>top-left</option><option>top-right</option>
+        </select>
+      </label>
+      <label>Basemap
+        <select id="basemap"><option value="light">Light</option><option value="dark">Dark</option></select>
+      </label>
+      <label>Theme
+        <select id="theme"><option>light</option><option>dark</option></select>
+      </label>
+      <label><span>Max width <output id="maxWidthValue">100</output> px</span>
+        <input id="maxWidth" type="range" min="50" max="200" step="10" value="100" />
+      </label>
+      <label>Show coordinates <input id="coords" type="checkbox" /></label>
+      <label>MapLibre GL JS
+        <select id="version"><option>6.15.0</option><option>5.24.0</option><option>4.7.1</option></select>
+      </label>
+      <pre id="snippet"></pre>
+      <a href="https://github.com/p-rubi/maplibre-gl-dual-scale-control">GitHub</a>
+    </div>
+
+    <script type="module">
+      const params = new URLSearchParams(location.search);
+      const version = params.get('maplibre') || '6.15.0';
+      const cdn = `https://unpkg.com/maplibre-gl@${version}/dist`;
+
+      // Load the requested MapLibre version (lets you check compatibility).
+      document.head.append(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: `${cdn}/maplibre-gl.css` }));
+      if (Number(version.split('.')[0]) >= 6) {
+        // MapLibre GL JS 6+ is published as an ES module only
+        window.maplibregl = await import(`${cdn}/maplibre-gl.mjs`);
+      } else {
+        await new Promise((resolve, reject) => {
+          document.head.append(Object.assign(document.createElement('script'), { src: `${cdn}/maplibre-gl.js`, onload: resolve, onerror: reject }));
+        });
+      }
+      const { DualScaleControl } = await import('../src/index.js');
+
+      // Free vector styles from OpenFreeMap (no API key needed)
+      const styleFor = (kind) => `https://tiles.openfreemap.org/styles/${kind === 'dark' ? 'dark' : 'liberty'}`;
+
+      const $ = (id) => document.getElementById(id);
+      $('version').value = version;
+      $('version').onchange = () => { params.set('maplibre', $('version').value); location.search = params; };
+
+      const map = new maplibregl.Map({ container: 'map', style: styleFor('light'), center: [2.1734, 41.3851], zoom: 13 });
+      map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+
+      let control;
+      function applyControl() {
+        if (control) map.removeControl(control);
+        const options = {
+          maxWidth: Number($('maxWidth').value),
+          theme: $('theme').value,
+          showCoordinates: $('coords').checked
+        };
+        control = new DualScaleControl(options);
+        map.addControl(control, $('position').value);
+        $('maxWidthValue').textContent = options.maxWidth;
+        $('snippet').textContent =
+          `map.addControl(new DualScaleControl({\n  maxWidth: ${options.maxWidth},\n  theme: '${options.theme}',\n  showCoordinates: ${options.showCoordinates}\n}), '${$('position').value}');`;
+      }
+      for (const id of ['position', 'theme', 'maxWidth', 'coords']) $(id).oninput = applyControl;
+      $('basemap').onchange = () => {
+        map.setStyle(styleFor($('basemap').value));
+        $('theme').value = $('basemap').value;
+        applyControl();
+      };
+      applyControl();
+      window.map = map;
+    </script>
+  </body>
+</html>
