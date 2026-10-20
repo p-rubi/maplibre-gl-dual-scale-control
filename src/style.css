@@ -1,0 +1,79 @@
+/*
+ * maplibre-gl-dual-scale-control
+ *
+ * Every visual aspect can be tuned with the custom properties below, e.g.
+ *   .maplibregl-ctrl-dual-scale { --dual-scale-color: #0a5; }
+ */
+.maplibregl-ctrl.maplibregl-ctrl-dual-scale {
+  --dual-scale-color: #333;
+  --dual-scale-background: rgba(255, 255, 255, 0.8);
+  --dual-scale-line: 2px;          /* thickness of the axis and end ticks */
+  --dual-scale-padding: 5px;       /* horizontal padding of the labels */
+  --dual-scale-gap: 2.5px;         /* space between the text and the axis */
+  --dual-scale-label-height: 12px; /* label row height (browsers without text-box-trim) */
+  /*
+   * Only used by browsers without `text-box` support: fonts leave more room
+   * under the baseline than above the digits, so a label below the axis would
+   * sit closer to it than a label above it. This nudges the imperial label
+   * down to even the two gaps out (tuned for Arial/Helvetica metrics).
+   */
+  --dual-scale-optical-offset: 0.1em;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 10px;
+  line-height: var(--dual-scale-label-height);
+  color: var(--dual-scale-color);
+  pointer-events: none;
+}
+
+.maplibregl-ctrl-dual-scale--dark.maplibregl-ctrl-dual-scale {
+  --dual-scale-color: #f0f0f0;
+  --dual-scale-background: rgba(30, 30, 30, 0.75);
+}
+
+.maplibregl-ctrl-dual-scale-metric,
+.maplibregl-ctrl-dual-scale-imperial,
+.maplibregl-ctrl-dual-scale-coords {
+  /* border-box: the bar width equals the distance it represents */
+  box-sizing: border-box;
+  height: auto;
+  padding-left: var(--dual-scale-padding);
+  padding-right: var(--dual-scale-padding);
+  background-color: var(--dual-scale-background);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.maplibregl-ctrl-dual-scale-coords {
+  margin-bottom: var(--dual-scale-line);
+}
+
+/* metric: label above the axis, ticks pointing down */
+.maplibregl-ctrl-dual-scale-metric {
+  border: var(--dual-scale-line) solid var(--dual-scale-color);
+  border-top-width: 0;
+}
+
+/* imperial: label below the axis, ticks pointing up; shares the axis line */
+.maplibregl-ctrl-dual-scale-imperial {
+  margin-top: calc(-1 * var(--dual-scale-line));
+  padding-top: var(--dual-scale-optical-offset);
+  border: var(--dual-scale-line) solid var(--dual-scale-color);
+  border-bottom-width: 0;
+}
+
+/*
+ * Where supported, trim each label to the height of its capital letters so the
+ * gap between the text and the axis is exactly --dual-scale-gap on both bars,
+ * whatever the font.
+ */
+@supports (text-box: trim-both cap alphabetic) {
+  .maplibregl-ctrl-dual-scale-metric,
+  .maplibregl-ctrl-dual-scale-imperial {
+    text-box: trim-both cap alphabetic;
+    padding-top: var(--dual-scale-gap);
+    padding-bottom: var(--dual-scale-gap);
+  }
+}

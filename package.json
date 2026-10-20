@@ -1,0 +1,67 @@
+{
+  "name": "maplibre-gl-dual-scale-control",
+  "version": "1.0.0",
+  "description": "A MapLibre GL JS scale bar that shows metric and imperial units at the same time.",
+  "keywords": [
+    "maplibre",
+    "maplibre-gl",
+    "maplibre-gl-js",
+    "map-control",
+    "scale",
+    "scalebar",
+    "scale-bar",
+    "metric",
+    "imperial",
+    "dual-scale"
+  ],
+  "homepage": "https://p-rubi.github.io/maplibre-gl-dual-scale-control/demo/",
+  "bugs": "https://github.com/p-rubi/maplibre-gl-dual-scale-control/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p-rubi/maplibre-gl-dual-scale-control.git"
+  },
+  "license": "MIT",
+  "author": "p-rubi",
+  "contributors": [
+    "Kristofor Carle <kris@maphubs.com> (original mapbox-gl-dual-scale-control)"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "unpkg": "./dist/maplibre-gl-dual-scale-control.umd.js",
+  "jsdelivr": "./dist/maplibre-gl-dual-scale-control.umd.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./style.css": "./src/style.css",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test",
+    "prepare": "node scripts/build.mjs",
+    "prepublishOnly": "npm test"
+  },
+  "peerDependencies": {
+    "maplibre-gl": ">=4.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
